@@ -19,7 +19,7 @@ API_AVAILABLE(ios(10.0))
  @param groupIdentifier APP Group ID
  @return CMPCallDirectoryManager
  */
-- (instancetype)initWithIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier;
+- (instancetype)initWithExtensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier;
 
 /**
  获取Call Direcory是否可用

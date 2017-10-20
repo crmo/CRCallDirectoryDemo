@@ -20,7 +20,7 @@
 
 @implementation CRCallDirectoryManager
 
-- (instancetype)initWithIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier {
+- (instancetype)initWithExtensionIdentifier:(NSString *)externsionIdentifier ApplicationGroupIdentifier:(NSString *)groupIdentifier {
     if (self = [super init]) {
         self.externsionIdentifier = externsionIdentifier;
         self.groupIdentifier = groupIdentifier;

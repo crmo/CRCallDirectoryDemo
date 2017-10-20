@@ -36,7 +36,7 @@
 - (BOOL)addIdentificationPhoneNumbersToContext:(CXCallDirectoryExtensionContext *)context {
     // 利用APP Group把待写入系统数据写到共享区域
 #warning 必须填写Application Group Identifier
-    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@""];
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.crmo.CallKitDemo"];
     
 #warning 必须填写文件名
     containerURL = [containerURL URLByAppendingPathComponent:@"CallDirectoryData"];
