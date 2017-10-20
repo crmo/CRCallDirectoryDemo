@@ -15,6 +15,10 @@
 @property (nonatomic, strong) NSString *groupIdentifier;
 /** 存储待写入电话号码与标识，key：号码，value：标识 **/
 @property (nonatomic, strong) NSMutableDictionary *dataList;
+/** 带国家码的手机号 **/
+@property (nonatomic, strong) NSPredicate *phoneNumberWithNationCodePredicate;
+/** 不带国家码的手机号 **/
+@property (nonatomic, strong) NSPredicate *phoneNumberWithoutNationCodePredicate;
 
 @end
 
@@ -85,15 +89,11 @@
  自动加上国家码，如果号码不合规返回nil
  */
 - (NSString *)handlePhoneNumber:(NSString *)phoneNumber {
-    NSString *mobileWithNationCodeRegex = @"^861[0-9]{10}$";
-    NSPredicate *hasNationCode = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileWithNationCodeRegex];
-    if ([hasNationCode evaluateWithObject:phoneNumber]) {
+    if ([self.phoneNumberWithNationCodePredicate evaluateWithObject:phoneNumber]) {
         return phoneNumber;
     }
     
-    NSString *mobileWithOutNationCodeRegex = @"^1[0-9]{10}$";
-    NSPredicate *notHasNationCode = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileWithOutNationCodeRegex];
-    if ([notHasNationCode evaluateWithObject:phoneNumber]) {
+    if ([self.phoneNumberWithoutNationCodePredicate evaluateWithObject:phoneNumber]) {
         return [NSString stringWithFormat:@"86%@", phoneNumber];
     }
     
@@ -144,11 +144,30 @@
     return result;
 }
 
+#pragma mark -
+#pragma mark -Getter
+
 - (NSMutableDictionary *)dataList {
     if (!_dataList) {
         _dataList = [NSMutableDictionary dictionary];
     }
     return _dataList;
+}
+
+- (NSPredicate *)phoneNumberWithNationCodePredicate {
+    if (!_phoneNumberWithNationCodePredicate) {
+        NSString *mobileWithNationCodeRegex = @"^861[0-9]{10}$";
+        _phoneNumberWithNationCodePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileWithNationCodeRegex];
+    }
+    return _phoneNumberWithNationCodePredicate;
+}
+
+- (NSPredicate *)phoneNumberWithoutNationCodePredicate {
+    if (!_phoneNumberWithoutNationCodePredicate) {
+        NSString *mobileWithoutNationCodeRegex = @"^1[0-9]{10}$";
+        _phoneNumberWithoutNationCodePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobileWithoutNationCodeRegex];
+    }
+    return _phoneNumberWithoutNationCodePredicate;
 }
 
 @end
