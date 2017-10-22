@@ -1,6 +1,5 @@
 # iOS用CallKit实现来电识别、来电拦截
 
----
 
 > 博客：http://www.jianshu.com/p/a27dbdc9b4d5
 
@@ -9,7 +8,9 @@
 > 最近需要实现一个新需求，用iOS 10出的CallKit实现将APP的通讯录的信息同步到系统中，可以不把人员信息加到通讯录中，实现来电号码识别。这个功能在xx安全卫士、xx管家中很早就实现了，但是网上相关的资料较少，而且官方的文档写的太简单了，很多坑还要自己去摸索。于是记录一下和各位分享，如有错误之处请各位指出！
 
 PS: 先说个题外话吧，CallKit功能在iOS 10的时候还不太稳定，iOS 10刚出来的时候为了体验骚扰拦截功能，手贱装了两个不同的拦截APP，然后就悲剧了。盗一张网上的图：
+
 ![Alt text](picture/1.png)
+
 然后各种重启、重装APP都没有用，写的Demo也跑不起来，唯一的办法只有重置系统。说多了都是泪！
 
 
@@ -157,6 +158,7 @@ PS: 先说个题外话吧，CallKit功能在iOS 10的时候还不太稳定，iOS
 ### 验证
 
 接下来在真机下跑下（一定要在插了电话卡的iPhone上调试，模拟器不行！），写入成功后，打开电话，拨号18788888888，提示”送餐电话”。说明写入成功！
+
 ![Alt text](picture/5.png)
 
 
@@ -186,6 +188,7 @@ NSFileManager *fileManager = [NSFileManager defaultManager];
 ---
 
 * 参考链接
+
 https://developer.apple.com/documentation/callkit
 
 https://developer.apple.com/videos/play/wwdc2016/230/
