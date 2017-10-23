@@ -39,28 +39,48 @@
 }
 
 - (IBAction)reload:(id)sender {
+    __weak typeof(self) weakself = self;
     // 先检查设置是否打开
     [self.manager getEnableStatus:^(CXCallDirectoryEnabledStatus enabledStatus, NSError *error) {
         if (error) {
             // CXErrorCodeCallDirectoryManagerError
-            [self alertMessage:@"获取权限发生错误"];
+            [weakself alertMessage:@"获取权限发生错误"];
             return;
         }
         
         if (enabledStatus == CXCallDirectoryEnabledStatusUnknown) {
-            [self alertMessage:@"获取权限-未知状态"];
+            [weakself alertMessage:@"获取权限-未知状态"];
         } else if (enabledStatus == CXCallDirectoryEnabledStatusDisabled) {
-            [self alertMessage:@"请在设置-电话-来电阻止与身份识别中开启权限"];
+            [weakself alertMessage:@"请在设置-电话-来电阻止与身份识别中开启权限"];
         } else if (enabledStatus == CXCallDirectoryEnabledStatusEnabled) {
             // 有权限，调用reload
-            [self.manager reload:^(NSError *error) {
+            [weakself.manager reload:^(NSError *error) {
                 if (error) {
                    // CXErrorCodeCallDirectoryManagerError
-                    [self alertMessage:@"写入系统错误"];
+                    [weakself alertMessage:@"写入系统错误"];
                 } else {
-                    [self alertMessage:@"写入系统成功"];
+                    [weakself alertMessage:@"写入系统成功"];
                 }
             }];
+        }
+    }];
+}
+
+// 测试超大数据量效率
+- (IBAction)autoAdd:(id)sender {
+    for (int i = 0; i < 1500000; i++) {
+        NSString *name = @"测试时";
+        NSString *phone = [NSString stringWithFormat:@"%ld", (18000000000 + i)];
+        [self.manager addPhoneNumber:phone label:name];
+        name = nil;
+        phone = nil;
+    }
+    __weak typeof(self) weakself = self;
+    [self.manager reload:^(NSError *error) {
+        if (error) {
+            [weakself alertMessage:@"写入系统错误"];
+        } else {
+            [weakself alertMessage:@"写入系统成功"];
         }
     }];
 }
